@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import NextButton from "./components/NextButton";
-import Loader from "./components/Loader";
-import { VehicleMake } from "./interfaces";
-import generateYearOptions from "./utils/generateYearOptions";
-import { fetchMakes } from "./services/vehicleService";
+import NextButton from "@/components/NextButton";
+import Loader from "@/components/Loader";
+import { VehicleModel } from "@/interfaces";
+import generateYearOptions from "@/utils/generateYearOptions";
+import { fetchMakes } from "@/services/vehicleService";
 
 const Home = () => {
   const [vehicleMakes, setVehicleMakes] = useState<string[]>([]);
@@ -18,7 +18,7 @@ const Home = () => {
   useEffect(() => {
     const getVehicleMakes = async () => {
       const data = await fetchMakes();
-      setVehicleMakes(data.Results.map((item: VehicleMake) => item.MakeName));
+      setVehicleMakes(data.map((item: VehicleModel) => item.MakeName));
     };
 
     getVehicleMakes();
@@ -30,7 +30,7 @@ const Home = () => {
 
   const handleNextClick = () => {
     if (!isButtonDisabled) {
-      router.push(`/result/${selectedMake}/${selectedYear}`)
+      router.push(`/result/${selectedMake.toLowerCase()}/${selectedYear}`)
     }
     setIsLoadingNextPage(true);
   };
@@ -56,7 +56,7 @@ const Home = () => {
               value={selectedMake}
               onChange={(e) => setSelectedMake(e.target.value)}
             >
-              <option value="">Select Make</option>
+              <option value=''>Select Make</option>
               {vehicleMakes.map((make, index) => (
                 <option key={index} value={make}>
                   {make}

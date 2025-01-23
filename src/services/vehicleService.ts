@@ -1,6 +1,6 @@
-import { VehicleModel } from "../interfaces";
+import { Make, VehicleModel } from "../interfaces";
 
-export const fetchMakes = async () => {
+export const fetchMakes = async (): Promise<VehicleModel[]> => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE}/GetMakesForVehicleType/car?format=json`
@@ -8,7 +8,32 @@ export const fetchMakes = async () => {
 
     if (!res.ok) throw new Error("Failed to fetch vehicle makes list");
     const data = await res.json();
-    return data;
+    return data.Results;
+  }
+  catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error fetching vehicle makes:", error.message);
+    } else {
+      console.error("An unknown error occurred while fetching vehicle makes");
+    }
+    return [];
+  }
+}
+
+export const fetchMakeId = async (make: string): Promise<number | null> => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE}/getAllMakes?format=json`
+    );
+
+    if (!res.ok) throw new Error("Failed to fetch vehicle makes list");
+    const data = await res.json();
+
+    const foundMake = data.Results.find(
+      (item: Make) => item.Make_Name?.toLowerCase() === make.toLowerCase()
+    );
+
+    return foundMake?.Make_ID || null;
   }
   catch (error: unknown) {
     if (error instanceof Error) {
@@ -33,7 +58,7 @@ export const fetchVehicleModels = async (
     const data = await res.json();
     return [
       ...new Set(
-        data.Results.map((item: VehicleModel) => item.Model_Name).filter(Boolean)
+        data.Results.map((item: { Model_Name: string }) => item.Model_Name).filter(Boolean)
       ),
     ] as string[];
   } catch (error: unknown) {

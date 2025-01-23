@@ -4,10 +4,6 @@ export interface Make {
 }
 
 export interface VehicleModel {
-  Model_Name: string;
-}
-
-export interface VehicleMake {
   MakeName: string;
 }
 
@@ -15,3 +11,8 @@ export interface VehicleParams {
   make: string;
   year: string;
 }
+
+export interface YearOption {
+  value: number;
+  label: string;
+};

@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Car Dealer App
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This repository contains the solution for the **Car Dealer App**, which allows users to filter vehicles by type and model year. The app is built using **Next.js** and **Tailwind CSS**.
+
+## Features
+
+- **Vehicle Filter Page**: Allows users to select a vehicle make and model year and navigate to a result page.
+- **Result Page**: Displays vehicles based on the selected make and year.
+- **Suspense Loading**: Utilizes React Suspense for data fetching and loading states.
+
+## Project Setup
+
+### 1. Clone the Repository
+
+Run the following command to clone the repository:
+
+```bash
+git clone https://github.com/AnnaKuzmenko17/car-dealer-app.git
+cd car-dealer-app
+```
+
+### 2. Install Dependencies
+
+Run the following command to install all necessary dependencies:
+
+```bash
+npm install
+```
+
+### 3. Environment Variables
+
+Create a `.env.local` file in the root directory instead of .env.example
+
+### 4. Run the Application
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will start the app at `http://localhost:3000`. You can access the vehicle filter and results pages.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Vehicle Makes**: `https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json`  
+  Fetches vehicle makes for the car type.
+- **Vehicle Models**: `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeIdYear/makeId/{makeId}/modelyear/{year}?format=json`  
+  Fetches vehicle models based on the make ID and model year.
 
-## Learn More
+## React Suspense
 
-To learn more about Next.js, take a look at the following resources:
+The app uses the **React Suspense** component to manage loading states.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tailwind CSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Tailwind CSS** is used for styling, and the app is designed to be fully responsive. Custom styles can be added in the `tailwind.config.js` file if needed.

@@ -1,20 +1,17 @@
-import ErrorMessage from "@/app/components/ErrorMessage";
-import Loader from "@/app/components/Loader";
+import ErrorMessage from "@/components/ErrorMessage";
+import Loader from "@/components/Loader";
 import Link from "next/link";
 import { Suspense } from "react";
-import { fetchMakes, fetchVehicleModels } from "@/app/services/vehicleService";
-import { Make, VehicleParams } from "@/app/interfaces";
+import { fetchMakeId, fetchVehicleModels } from "@/services/vehicleService";
+import { VehicleParams } from "@/interfaces";
 
-const ResultPage = async (context: { params: VehicleParams }) => {
-  const { make, year } = context.params;
+const ResultPage = async ({ params }: { params: Promise<VehicleParams> }) => {
+  const { make, year } = (await params);
 
-  const makes = await fetchMakes();
-  const makeId = makes.Results.find(
-    (item: Make) => item.Make_Name.toLowerCase() === make.toLowerCase()
-  );
+  const makeId = await fetchMakeId(make);
 
   if (!makeId) {
-    return <ErrorMessage />;
+    return <ErrorMessage />
   }
 
   const vehicleModels = await fetchVehicleModels(makeId, year);
@@ -44,7 +41,7 @@ const ResultPage = async (context: { params: VehicleParams }) => {
 
       <Link
         href="/"
-        className="mt-5 p-2 bg-blue-500 text-white rounded-lg"
+        className="p-4 bg-blue-600 text-white rounded-lg font-semibold text-center shadow-lg hover:bg-blue-700 transition-all duration-300 sm:w-auto w-full max-w-[300px]"
       >
         Back to Home
       </Link>
