@@ -2,8 +2,25 @@ import ErrorMessage from "@/components/ErrorMessage";
 import Loader from "@/components/Loader";
 import Link from "next/link";
 import { Suspense } from "react";
-import { fetchMakeId, fetchVehicleModels } from "@/services/vehicleService";
+import { fetchMakeId, fetchMakes, fetchVehicleModels } from "@/services/vehicleService";
 import { VehicleParams } from "@/interfaces";
+
+export const generateStaticParams = async () => {
+  const vehicleMakes = await fetchMakes();
+  const makes = vehicleMakes.map(({ MakeName }) => ({
+    make: MakeName.toLowerCase(),
+  }));
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2015 + 1 }, (_, i) => ({
+    year: (2015 + i).toString(),
+  }));
+
+  return makes.flatMap(({ make }) =>
+    years.map(({ year }) => ({ make, year }))
+  );
+};
+
 
 const ResultPage = async ({ params }: { params: Promise<VehicleParams> }) => {
   const { make, year } = (await params);
