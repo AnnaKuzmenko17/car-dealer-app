@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import NextButton from "@/components/NextButton";
 import Loader from "@/components/Loader";
 import { VehicleModel } from "@/interfaces";
@@ -13,7 +12,6 @@ const Home = () => {
   const [selectedYear, setSelectedYear] = useState<number>(2015);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isLoadingNextPage, setIsLoadingNextPage] = useState(false);
-  const router = useRouter()
 
   useEffect(() => {
     const getVehicleMakes = async () => {
@@ -29,9 +27,6 @@ const Home = () => {
   }, [selectedMake, selectedYear]);
 
   const handleNextClick = () => {
-    if (!isButtonDisabled) {
-      router.push(`/result/${selectedMake.toLowerCase()}/${selectedYear}`)
-    }
     setIsLoadingNextPage(true);
   };
 
@@ -93,6 +88,8 @@ const Home = () => {
               <NextButton
                 isButtonDisabled={isButtonDisabled}
                 handleNextClick={handleNextClick}
+                selectedMake={selectedMake}
+                selectedYear={selectedYear}
               />
             )}
           </div>
